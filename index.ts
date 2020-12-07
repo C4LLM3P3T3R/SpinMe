@@ -118,16 +118,16 @@ client.on("message", (message) => {
         let config = readConfigFile();
 
 
-        for (let index = 0; index < 10; index++) {
-            if (config.users[index] != undefined)
+        for (let index = 0; index < config.users.length + 1; index++) {
+            if (config.users[index])
                 leaderboard.push({ "id": config.users[index].id, "coins": config.users[index].coins });
 
         }
         leaderboard = _.orderBy(leaderboard, (item) => {
             return item.coins;
         }, "desc")
-        for (let index = 0; index < leaderboard.length; index++) {
-
+        for (let index = 0; index < 10; index++) {
+            if(leaderboard[index])
             afterSort.push(index + 1 + ".", `<@${leaderboard[index].id}>`, "**\nCoins: **", `\`\`${leaderboard[index].coins}\`\``, "\n");
 
         }
