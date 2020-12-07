@@ -1,0 +1,36 @@
+{
+    "name": "spinme",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/C4LLM3P3T3R/SpinMe.git"
+    },
+    "author": "C4LLM3P3T3R",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/C4LLM3P3T3R/SpinMe/issues"
+    },
+    "homepage": "https://github.com/C4LLM3P3T3R/SpinMe#readme",
+    "devDependencies": {
+        "@types/node": "^14.14.10"
+    },
+    "dependencies": {
+        "@types/lodash": "^4.14.165",
+        "anti-spam": "^0.2.7",
+        "discord-anti-spam": "^2.4.1",
+        "loadash": "^1.0.0",
+        "lodash": "^4.17.20",
+        "nodemon": "^2.0.6",
+        "spamnya": "^1.1.1"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "config.json"
+        ]
+    }
+}
