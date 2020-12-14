@@ -1,9 +1,9 @@
 import * as Discord from "discord.js";
 import { read } from "fs/promises";
 import { readConfigFile, saveConfigFile, client } from "./index"
-import { getRandomIntInclusive } from "./getRandomIntInclusive";
-import { replaceNumbersWithFriuts } from "./replaceNumbersWithFriuts";
-import { percentageChance } from "./percentageChance";
+import { getRandomIntInclusive } from "./Utility/getRandomIntInclusive";
+import { replaceNumbersWithFriuts } from "./Utility/replaceNumbersWithFriuts";
+import { percentageChance } from "./Utility/percentageChance";
 
 export class Game {
     playerId: any;
