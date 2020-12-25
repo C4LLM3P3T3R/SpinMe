@@ -7,7 +7,7 @@ import { percentageChance } from "./Utility/percentageChance";
 
 export class Game {
     playerId: any;
-    coinsWon: number;
+    tokensWon: number;
     message: Discord.Message;
     newPlayer: boolean;
     firstItem: number;
@@ -24,7 +24,7 @@ export class Game {
 
     constructor(message: Discord.Message) {
         this.playerId = message.author.id;
-        this.coinsWon = 0;
+        this.tokensWon = 0;
         this.message = message;
         this.newPlayer = true;
         this.firstItem = 0;
@@ -58,16 +58,16 @@ export class Game {
 
             if (this.playerId == config.users[index].id) {
                 if(amount == "max" || amount == "all"){
-                    amount = config.users[index].coins;
+                    amount = config.users[index].tokens;
                 }
                 if(isNaN(parseInt(amount))) return this.message.reply("Wrong format! !spin <number|max/all>");
                 else amount = parseInt(amount);
                 
                 
                 
-                if (config.users[index].coins - amount < 0) return this.message.channel.send(`You don't have enough coins! (${config.users[index].coins})`);
+                if (config.users[index].tokens - amount < 0) return this.message.channel.send(`You don't have enough tokens! (${config.users[index].tokens})`);
                 this.newPlayer = false;
-                config.users[index].coins -= amount;
+                config.users[index].tokens -= amount;
                 saveConfigFile(config);
 
                 
@@ -77,12 +77,12 @@ export class Game {
             }
         }
         if (this.newPlayer == true) {
-            config.users.push({ "id": this.playerId, "coins": 1000, "level": 0, "exp": 0 });
+            config.users.push({ "id": this.playerId, "tokens": 1000, "level": 0, "exp": 0 });
             for (let index = 0; index < config.users.length; index++) {
 
                 if (this.playerId == config.users[index].id) {
-                    if (config.users[index].coins - amount < 0) return this.message.channel.send(`You don't have enough coins! (${config.users[index].coins})`);
-                    config.users[index].coins -= amount;
+                    if (config.users[index].tokens - amount < 0) return this.message.channel.send(`You don't have enough tokens! (${config.users[index].tokens})`);
+                    config.users[index].tokens -= amount;
                     saveConfigFile(config);
 
 
@@ -127,40 +127,40 @@ export class Game {
         saveConfigFile(config);
         if (this.firstItem == this.secondItem && this.firstItem == this.thirdItem) {
             if (this.firstItem == 1) {
-                this.coinsWon = amount * 1.5;
+                this.tokensWon = amount * 1.5;
             } else if (this.firstItem == 2) {
-                this.coinsWon = amount * 2;
+                this.tokensWon = amount * 2;
             } else if (this.firstItem == 3) {
-                this.coinsWon = amount * 2.75;
+                this.tokensWon = amount * 2.75;
             } else if (this.firstItem == 4) {
-                this.coinsWon = amount * 3.5;
+                this.tokensWon = amount * 3.5;
             } else if (this.firstItem == 5) {
-                this.coinsWon = amount * 5;
+                this.tokensWon = amount * 5;
             }
 
         }
         else if (this.firstItem == this.secondItem || this.thirdItem == this.secondItem) {
             if (this.firstItem == 1 && this.secondItem == 1 || this.thirdItem == 1 && this.secondItem == 1) {
-                this.coinsWon = amount * 1.25;
+                this.tokensWon = amount * 1.25;
             }
             else if (this.firstItem == 2 && this.secondItem == 2 || this.thirdItem == 2 && this.secondItem == 2) {
-                this.coinsWon = amount * 1.5;
+                this.tokensWon = amount * 1.5;
             }
             else if (this.firstItem == 3 && this.secondItem == 3 || this.thirdItem == 3 && this.secondItem == 3) {
-                this.coinsWon = amount * 2.25;
+                this.tokensWon = amount * 2.25;
             }
             else if (this.firstItem == 4 && this.secondItem == 4 || this.thirdItem == 4 && this.secondItem == 4) {
-                this.coinsWon = amount * 3;
+                this.tokensWon = amount * 3;
             }
             else if (this.firstItem == 5 && this.secondItem == 5 || this.thirdItem == 5 && this.secondItem == 5) {
-                this.coinsWon = amount * 4;
+                this.tokensWon = amount * 4;
             }
         }
 
         
 
         console.log(`|| ${this.firstItem} || ${this.secondItem} || ${this.thirdItem}`);
-        console.log(Math.round(this.coinsWon));
+        console.log(Math.round(this.tokensWon));
         const rolling = client.emojis.cache.find(emoji => emoji.name === "rolling");
 
 
@@ -188,9 +188,9 @@ export class Game {
                 }
             }
 
-            config.users[index].coins += Math.round(this.coinsWon); // add coins, it already removed the coins for the initial bet
+            config.users[index].tokens += Math.round(this.tokensWon); // add tokens, it already removed the tokens for the initial bet
             saveConfigFile(config); // save config
-            if (this.coinsWon > 0) this.winColor = "#10dd10";
+            if (this.tokensWon > 0) this.winColor = "#10dd10";
             let embed = new Discord.MessageEmbed(this.slotEmbed)
                 .spliceFields(0, 1)
                 .addFields({
@@ -200,12 +200,12 @@ export class Game {
                 },             
                 {
                     name: "**Win:**",
-                    value: this.coinsWon,
+                    value: this.tokensWon,
                     inline: true
                 },
                 {
                     name: "**Tokens:**",
-                    value: config.users[index].coins,
+                    value: config.users[index].tokens,
                     inline: true
                 })
                 .setColor(this.winColor)

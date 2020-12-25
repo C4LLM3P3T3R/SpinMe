@@ -84,7 +84,7 @@ client.on("message", (message) => {
         for (let index = 0; index < config.users.length + 1; index++) {
             if (config.users[index]) {
                 if (config.users[index].id == message.author.id) {
-                    config.users[index].coins += 10;
+                    config.users[index].tokens += 10;
                     saveConfigFile(config);
                 }
             }
@@ -116,32 +116,46 @@ client.on("message", (message) => {
         leaderboard = [];
         afterSort = [];
         let config = readConfigFile();
-
+        let afterSorttokens = [];
 
         for (let index = 0; index < config.users.length + 1; index++) {
             if (config.users[index])
-                leaderboard.push({ "id": config.users[index].id, "coins": config.users[index].coins });
+                leaderboard.push({ "id": config.users[index].id, "tokens": config.users[index].tokens });
 
         }
         leaderboard = _.orderBy(leaderboard, (item) => {
-            return item.coins;
+            return item.tokens;
         }, "desc")
         for (let index = 0; index < 10; index++) {
-            if(leaderboard[index])
-            afterSort.push(index + 1 + ".", `<@${leaderboard[index].id}>`, "**\nCoins: **", `\`\`${leaderboard[index].coins}\`\``, "\n");
+            if (leaderboard[index]) {
+                afterSort.push(index + 1 + ".", `<@${leaderboard[index].id}>\n`);
+                afterSorttokens.push(`\`\`${leaderboard[index].tokens}\`\``, "\n");
+            }
+
 
         }
 
         console.log(afterSort.toString());
-        if (JSON.stringify(config.users) == "[]") afterSort = "No one is on the leaderboard! Go play, and be the first!";
-
+        let tokensField = {
+            name: "tokens",
+            value: afterSorttokens.toString().replace(/,/g, ""),
+            inline: true
+        }
+        if (JSON.stringify(config.users) == "[]") {
+            afterSort = "No one is on the leaderboard! Go play, and be the first!";
+            tokensField = {
+                name: "tokens",
+                value: "\`\`0\`\`",
+                inline: true
+            };
+        }
         let embed = new Discord.MessageEmbed()
             .addFields({
                 name: "Leaderboard",
                 value: afterSort.toString().replace(/,/g, ""),
+                inline: true
 
-
-            })
+            }, tokensField)
             .setColor("#FFBD33");
         message.channel.send(embed);
     } else if (args[0] == "!tokens") {
@@ -171,13 +185,13 @@ client.on("message", (message) => {
                     let embed = new Discord.MessageEmbed()
                         .setColor("#FFBD33")
                         .setTitle("**Tokens**")
-                        .addField(`${authorName}`, `Tokens: \`\`${config.users[index].coins}\`\``);
+                        .addField(`${authorName}`, `Tokens: \`\`${config.users[index].tokens}\`\``);
                     return message.channel.send(embed);
                 }
             } catch (error) {
                 try {
                     if (config.users[index]) return;
-                    config.users.push({ "id": authorObj.id, "coins": 1000, "level": 0, "exp": 0 });
+                    config.users.push({ "id": authorObj.id, "tokens": 1000, "level": 0, "exp": 0 });
                     saveConfigFile(config);
                     for (let index = 0; index < config.users.length + 1; index++) {
                         if (config.users[index]) {
@@ -185,7 +199,7 @@ client.on("message", (message) => {
                                 let embed = new Discord.MessageEmbed()
                                     .setColor("#FFBD33")
                                     .setTitle("**Tokens**")
-                                    .addField(`${authorName}`, `Tokens: \`\`${config.users[index].coins}\`\``);
+                                    .addField(`${authorName}`, `Tokens: \`\`${config.users[index].tokens}\`\``);
                                 return message.channel.send(embed);
                             }
                         }
@@ -232,7 +246,7 @@ client.on("message", (message) => {
             } catch (error) {
 
                 if (config.users[index]) return;
-                config.users.push({ "id": authorObj.id, "coins": 1000, "level": 0, "exp": 0 });
+                config.users.push({ "id": authorObj.id, "tokens": 1000, "level": 0, "exp": 0 });
                 saveConfigFile(config);
                 for (let index = 0; index < config.users.length + 1; index++) {
                     if (config.users[index]) {
