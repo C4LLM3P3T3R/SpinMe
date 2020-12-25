@@ -168,7 +168,7 @@ export class Game {
         this.slotEmbed = new Discord.MessageEmbed()
             .setColor("#FFBD33")
             .setTitle(`SLOTS | ${this.message.author.username} | ROLLING`)
-            .setThumbnail(this.message.author.avatarURL())
+            .setThumbnail(this.message.author.avatarURL({dynamic: true}))
             .addFields({
                 name: "\u200B",
                 value: `**-----------------\n| ${rolling} | ${rolling} | ${rolling} |\n-----------------**`,
