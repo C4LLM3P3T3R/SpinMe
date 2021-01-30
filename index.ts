@@ -144,7 +144,7 @@ client.on("message", (message) => {
 
 })
 
-client.login("NzgzMzYwMTc3Njg3NjI1NzU5.X8ZnBA.BG6JHoHsJOluhzELohWKDuG0X2Y");
+client.login("token");
 
 export function readConfigFile(): any {
     return JSON.parse(fs.readFileSync("config.json").toString());
